@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_meetings_ahead">
+
+    <fragment
+        android:id="@+id/navigation_meetings_ahead"
+        android:name="com.xjtucsse.meetingassistant.ui.MeetingsAhead.MeetingsAheadFragment"
+        android:label="@string/meetings_ahead"
+        tools:layout="@layout/fragment_meetings_ahead" />
+
+    <fragment
+        android:id="@+id/navigation_meetings_now"
+        android:name="com.xjtucsse.meetingassistant.ui.MeetingsNow.MeetingsNowFragment"
+        android:label="@string/meetings_now"
+        tools:layout="@layout/fragment_meetings_now" />
+
+    <fragment
+        android:id="@+id/navigation_meetings_before"
+        android:name="com.xjtucsse.meetingassistant.ui.MeetingsBefore.MeetingsBeforeFragment"
+        android:label="@string/meetings_before"
+        tools:layout="@layout/fragment_meetings_before" />
+</navigation>

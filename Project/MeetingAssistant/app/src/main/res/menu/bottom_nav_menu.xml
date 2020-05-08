@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_meetings_ahead"
+        android:icon="@drawable/ic_meetings_ahead_24dp"
+        android:title="@string/meetings_ahead" />
+
+    <item
+        android:id="@+id/navigation_meetings_now"
+        android:icon="@drawable/ic_meetings_now_24dp"
+        android:title="@string/meetings_now" />
+
+    <item
+        android:id="@+id/navigation_meetings_before"
+        android:icon="@drawable/ic_meetings_before_24dp"
+        android:title="@string/meetings_before" />
+
+</menu>
