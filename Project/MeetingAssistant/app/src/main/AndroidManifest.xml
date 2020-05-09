@@ -9,6 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".AddMeetingActivity" android:label="添加会议"></activity>
+        <activity android:name=".MeetingActivity" android:label="会议详情"/>
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name">

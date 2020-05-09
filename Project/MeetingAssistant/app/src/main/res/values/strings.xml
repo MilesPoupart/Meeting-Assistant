@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MeetingAssistant</string>
+    <string name="app_name">会议助手</string>
     <string name="meetings_ahead">将来会议</string>
     <string name="meetings_now">现在会议</string>
     <string name="meetings_before">过去会议</string>

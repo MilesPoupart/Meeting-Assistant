@@ -10,7 +10,7 @@ public class MeetingsNowViewModel extends ViewModel {
 
     public MeetingsNowViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("没有正在进行的会议");
+        //mText.setValue("没有正在进行的会议");
     }
 
     public LiveData<String> getText() {
