@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MeetingActivity"
-    android:padding="30dp"
+    android:padding="25dp"
     android:background="#66FFE0">
     <TextView
         android:id="@+id/this_meeting_topic"
@@ -22,10 +22,11 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/this_meeting_topic"
         android:text="这里显示会议时间"
-        android:layout_marginTop="10dp"
-        android:textSize="20sp"/>
+        android:layout_marginTop="5dp"
+        android:textSize="15sp"/>
 
     <EditText
+        android:id="@+id/et"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="10dp"

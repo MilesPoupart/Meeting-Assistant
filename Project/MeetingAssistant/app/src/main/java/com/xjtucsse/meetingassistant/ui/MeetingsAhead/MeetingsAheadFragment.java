@@ -1,6 +1,7 @@
 package com.xjtucsse.meetingassistant.ui.MeetingsAhead;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Rect;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -47,23 +49,31 @@ public class MeetingsAheadFragment extends Fragment {
         RV1 = view.findViewById(R.id.rv1);
         RV1.addItemDecoration(new SpacesItemDecoration(8));
 
-
         Calendar NowTime=Calendar.getInstance();
         String nowTime=sdf.format(NowTime.getTime());
 
         query_and_add("startTime>\""+nowTime+"\" order by startTime");
-
+        DatabaseDAO dao = new DatabaseDAO(this.getActivity());
+        //dao.query("startTime>\""+nowTime+"\" order by startTime");
         RV1.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
         RV1.setAdapter(new MeetingAdapter(getActivity(),list));
         RV1.addItemDecoration (new DividerItemDecoration (getActivity (), DividerItemDecoration.VERTICAL));
         return view;
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        String note = data.getStringExtra("note");
+        String topic = data.getStringExtra("topic");
+        //写入数据库
+    }
+
     public void query_and_add(String condition) {
         DatabaseHelper dbHelper= new DatabaseHelper(this.getActivity());
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         String sql="select * from "+ DatabaseInfo.TABLE_NAME+" where "+condition;
-        Log.d("QAD",sql);
+        //Log.d("QAD",sql);
         Cursor cursor =db.rawQuery(sql,null);
 
         while (cursor.moveToNext()){
@@ -85,7 +95,7 @@ public class MeetingsAheadFragment extends Fragment {
             String note=cursor.getString(cursor.getColumnIndex("note"));
             MeetingInfo thismeeting =new MeetingInfo(topic,stC,enC,note);
             list.add(thismeeting);
-            Log.d("MAF",thismeeting.meetingStartTime.getTime().toString()+" "+thismeeting.meetingEndTime.getTime().toString());
+            //Log.d("MAF",thismeeting.meetingStartTime.getTime().toString()+" "+thismeeting.meetingEndTime.getTime().toString());
         }
         cursor.close();
         db.close();

@@ -1,5 +1,6 @@
 package com.xjtucsse.meetingassistant.ui.MeetingsBefore;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -57,6 +58,15 @@ public class MeetingsBeforeFragment extends Fragment {
         RV1.addItemDecoration (new DividerItemDecoration(getActivity (), DividerItemDecoration.VERTICAL));
         return view;
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        String note = data.getStringExtra("note");
+        String topic = data.getStringExtra("topic");
+        //写入数据库
+    }
+
     public void query_and_add(String condition) {
         DatabaseHelper dbHelper= new DatabaseHelper(this.getActivity());
         SQLiteDatabase db = dbHelper.getWritableDatabase();
