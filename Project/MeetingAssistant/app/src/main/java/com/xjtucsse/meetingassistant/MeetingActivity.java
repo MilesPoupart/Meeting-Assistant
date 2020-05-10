@@ -47,7 +47,8 @@ public class MeetingActivity extends AppCompatActivity {
         ET=findViewById(R.id.et);
         ET.setText(note);
         IV=findViewById(R.id.meeting_qr);
-        String qrstring=topic+"$,$"+starttime+"$,$"+endtime;
+        String qrstring="MTAS"+"$,!$"+topic+"$,!$"+starttime+"$,!$"+endtime;
+        Log.d("QRSTR",qrstring);
         Bitmap QR = CodeCreator.createQRCode(qrstring,100,100,null);
         IV.setImageBitmap(QR);
         saveNote.setOnClickListener(new View.OnClickListener() {

@@ -61,8 +61,13 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == 8453 && resultCode == RESULT_OK) {
             if (data != null) {
                 String content = data.getStringExtra(com.yzq.zxinglibrary.common.Constant.CODED_CONTENT);
-                String [] mtinfo=content.split("\\$,\\$");
-                String gettopic=mtinfo[0],getsttime=mtinfo[1],getedtime=mtinfo[2];
+                String [] mtinfo=content.split("\\$,!\\$");
+                if (!mtinfo[0].equals("MTAS"))
+                {
+                    Toast.makeText(MainActivity.this,"扫描会议码才能添加会议！\n扫码内容为"+content,Toast.LENGTH_LONG).show();
+                    return;
+                }
+                String gettopic=mtinfo[1],getsttime=mtinfo[2],getedtime=mtinfo[3];
                 String thismeetingid=getMeetingID(gettopic+getsttime+getedtime);
                 DatabaseDAO mydb=new DatabaseDAO(MainActivity.this);
                 if (mydb.query_items("meetingID=\""+thismeetingid+"\"")>0)
