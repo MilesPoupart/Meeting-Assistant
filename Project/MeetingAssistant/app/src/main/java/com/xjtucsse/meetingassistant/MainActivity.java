@@ -18,6 +18,8 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import static com.xjtucsse.meetingassistant.MeetingInfo.getMeetingID;
+
 public class MainActivity extends AppCompatActivity {
     private FloatingActionButton scanQR,addMeeting;
     @Override
@@ -59,7 +61,17 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == 8453 && resultCode == RESULT_OK) {
             if (data != null) {
                 String content = data.getStringExtra(com.yzq.zxinglibrary.common.Constant.CODED_CONTENT);
-                Toast.makeText(MainActivity.this,content,Toast.LENGTH_SHORT).show();
+                String [] mtinfo=content.split("\\$,\\$");
+                String gettopic=mtinfo[0],getsttime=mtinfo[1],getedtime=mtinfo[2];
+                String thismeetingid=getMeetingID(gettopic+getsttime+getedtime);
+                DatabaseDAO mydb=new DatabaseDAO(MainActivity.this);
+                if (mydb.query_items("meetingID=\""+thismeetingid+"\"")>0)
+                {
+                    Toast.makeText(MainActivity.this,"已存在相同会议，请检查！",Toast.LENGTH_LONG).show();
+                    return;
+                }
+                mydb.insert(thismeetingid,gettopic,getsttime,getedtime,"");
+                Toast.makeText(MainActivity.this,"添加成功！请刷新页面！",Toast.LENGTH_SHORT).show();
             }
         }
     }

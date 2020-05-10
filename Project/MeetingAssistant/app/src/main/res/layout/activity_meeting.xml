@@ -13,9 +13,13 @@
         android:layout_height="wrap_content"
         android:text="会议主题"
         android:textSize="25sp"
-        android:gravity="center"
         android:textStyle="bold"
-        android:textColor="#000"/>
+        android:textColor="#000"
+        android:layout_marginLeft="8dp"
+        android:layout_toRightOf="@id/meeting_qr"
+        android:singleLine="true"
+        android:ellipsize="marquee"
+        android:marqueeRepeatLimit="marquee_forever"/>
     <TextView
         android:id="@+id/this_meeting_time"
         android:layout_width="match_parent"
@@ -23,17 +27,10 @@
         android:layout_below="@id/this_meeting_topic"
         android:text="这里显示会议时间"
         android:layout_marginTop="5dp"
-        android:textSize="15sp"/>
+        android:layout_marginLeft="8dp"
+        android:textSize="15sp"
+        android:layout_toRightOf="@+id/meeting_qr"/>
 
-    <EditText
-        android:id="@+id/et"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="10dp"
-        android:background="@drawable/textview_shape"
-        android:gravity="top"
-        android:layout_below="@+id/this_meeting_time"
-        android:layout_marginTop="10dp"/>
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/save_note"
         android:layout_width="wrap_content"
@@ -55,5 +52,21 @@
         android:layout_marginBottom="20dp"
         android:layout_marginRight="20dp"
         app:srcCompat="@drawable/ic_delete_note_36dp"/>
+    <EditText
+        android:id="@+id/et"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="10dp"
+        android:background="@drawable/textview_shape"
+        android:gravity="top"
+        android:layout_below="@+id/meeting_qr"
+        android:layout_marginTop="15dp"/>
+    <ImageView
+        android:id="@+id/meeting_qr"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/ic_meetings_now_24dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"/>
 
 </RelativeLayout>

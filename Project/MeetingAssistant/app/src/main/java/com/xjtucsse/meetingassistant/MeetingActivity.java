@@ -7,21 +7,25 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.xjtucsse.meetingassistant.ui.MeetingAdapter;
+import com.yzq.zxinglibrary.encode.CodeCreator;
 
 public class MeetingActivity extends AppCompatActivity {
     FloatingActionButton saveNote,deleteNote;
     EditText ET;
     TextView thistopic,thistime;
     String note,topic,starttime,endtime,thismeetingid;
+    ImageView IV;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +38,7 @@ public class MeetingActivity extends AppCompatActivity {
         deleteNote=(FloatingActionButton) findViewById(R.id.delete_note);
         thistopic=findViewById(R.id.this_meeting_topic);
         thistopic.setText(topic);
+        thistopic.setSelected(true);
         thistime=findViewById(R.id.this_meeting_time);
         thistime.setText("开始时间 "+starttime+"\n结束时间 "+endtime);
         thismeetingid=MeetingInfo.getMeetingID(topic+starttime+endtime);
@@ -41,6 +46,10 @@ public class MeetingActivity extends AppCompatActivity {
         Log.d("TMT",topic+starttime+endtime+" "+thismeetingid);
         ET=findViewById(R.id.et);
         ET.setText(note);
+        IV=findViewById(R.id.meeting_qr);
+        String qrstring=topic+"$,$"+starttime+"$,$"+endtime;
+        Bitmap QR = CodeCreator.createQRCode(qrstring,100,100,null);
+        IV.setImageBitmap(QR);
         saveNote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

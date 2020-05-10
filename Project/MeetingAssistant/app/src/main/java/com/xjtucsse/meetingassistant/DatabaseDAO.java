@@ -44,4 +44,14 @@ public class DatabaseDAO {
         cursor.close();
         db.close();
     }
+    public int query_items(String condition){
+        SQLiteDatabase db =dbHelper.getWritableDatabase();
+        String sql="select * from "+ DatabaseInfo.TABLE_NAME+" where "+condition;
+        Cursor cursor =db.rawQuery(sql,null);
+        int itemcnt=0;
+        while (cursor.moveToNext()) itemcnt = itemcnt + 1;
+        cursor.close();
+        db.close();
+        return itemcnt;
+    }
 }

@@ -77,8 +77,14 @@ public class AddMeetingActivity extends AppCompatActivity {
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
                 String startTimeStr = sdf.format(newMeetDateTimeStart.getTime());
                 String endTimeStr = sdf.format(newMeetDateTimeEnd.getTime());
+                String thismeetingid=getMeetingID(newMeetTopic+startTimeStr+endTimeStr);
                 DatabaseDAO mydb=new DatabaseDAO(AddMeetingActivity.this);
-                mydb.insert(getMeetingID(newMeetTopic+startTimeStr+endTimeStr),newMeetTopic,startTimeStr,endTimeStr,"");
+                if (mydb.query_items("meetingID=\""+thismeetingid+"\"")>0)
+                {
+                    Toast.makeText(AddMeetingActivity.this,"已存在相同会议，请检查！",Toast.LENGTH_LONG).show();
+                    return;
+                }
+                mydb.insert(thismeetingid,newMeetTopic,startTimeStr,endTimeStr,"");
                 Toast.makeText(AddMeetingActivity.this,"添加成功！请刷新页面！\n会议主题："+newMeetTopic+"\n会议时间：\n"+startTimeStr+"到"+endTimeStr,Toast.LENGTH_LONG).show();
                 finish();
             }

@@ -52,7 +52,7 @@ public class MeetingsAheadFragment extends Fragment {
         Calendar NowTime=Calendar.getInstance();
         String nowTime=sdf.format(NowTime.getTime());
 
-        query_and_add("startTime>\""+nowTime+"\" order by startTime");
+        query_and_add("startTime>\""+nowTime+"\" order by startTime",view.getContext());
         DatabaseDAO dao = new DatabaseDAO(this.getActivity());
         //dao.query("startTime>\""+nowTime+"\" order by startTime");
         RV1.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
@@ -61,16 +61,16 @@ public class MeetingsAheadFragment extends Fragment {
         return view;
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        String note = data.getStringExtra("note");
-        String topic = data.getStringExtra("topic");
-        //写入数据库
-    }
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        String note = data.getStringExtra("note");
+//        String topic = data.getStringExtra("topic");
+//        //写入数据库
+//    }
 
-    public void query_and_add(String condition) {
-        DatabaseHelper dbHelper= new DatabaseHelper(this.getActivity());
+    public void query_and_add(String condition,Context context) {
+        DatabaseHelper dbHelper= new DatabaseHelper(context);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         String sql="select * from "+ DatabaseInfo.TABLE_NAME+" where "+condition;
         //Log.d("QAD",sql);

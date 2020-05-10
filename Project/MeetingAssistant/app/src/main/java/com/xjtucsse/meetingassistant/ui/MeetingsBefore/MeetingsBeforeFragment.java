@@ -59,13 +59,13 @@ public class MeetingsBeforeFragment extends Fragment {
         return view;
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        String note = data.getStringExtra("note");
-        String topic = data.getStringExtra("topic");
-        //写入数据库
-    }
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        String note = data.getStringExtra("note");
+//        String topic = data.getStringExtra("topic");
+//        //写入数据库
+//    }
 
     public void query_and_add(String condition) {
         DatabaseHelper dbHelper= new DatabaseHelper(this.getActivity());

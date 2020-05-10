@@ -70,7 +70,7 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingAdapter.LinearVi
                 intent.putExtra("starttime",sttimestr);
                 intent.putExtra("endtime",edtimestr);
                 //intent.putExtra("note","thismeetingnote");
-                ((Activity) Ct).startActivityForResult(intent,1);
+                ((Activity) Ct).startActivityForResult(intent,7325);
             }
         });
         holder.delbtn.setOnClickListener(new View.OnClickListener() {
