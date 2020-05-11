@@ -61,19 +61,11 @@ public class MeetingsAheadFragment extends Fragment {
         return view;
     }
 
-//    @Override
-//    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        String note = data.getStringExtra("note");
-//        String topic = data.getStringExtra("topic");
-//        //写入数据库
-//    }
 
     public void query_and_add(String condition,Context context) {
         DatabaseHelper dbHelper= new DatabaseHelper(context);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         String sql="select * from "+ DatabaseInfo.TABLE_NAME+" where "+condition;
-        //Log.d("QAD",sql);
         Cursor cursor =db.rawQuery(sql,null);
 
         while (cursor.moveToNext()){
@@ -95,7 +87,6 @@ public class MeetingsAheadFragment extends Fragment {
             String note=cursor.getString(cursor.getColumnIndex("note"));
             MeetingInfo thismeeting =new MeetingInfo(topic,stC,enC,note);
             list.add(thismeeting);
-            //Log.d("MAF",thismeeting.meetingStartTime.getTime().toString()+" "+thismeeting.meetingEndTime.getTime().toString());
         }
         cursor.close();
         db.close();

@@ -51,7 +51,7 @@
         android:layout_alignParentRight="true"
         android:layout_marginBottom="20dp"
         android:layout_marginRight="20dp"
-        app:srcCompat="@drawable/ic_delete_note_36dp"/>
+        app:srcCompat="@drawable/ic_clear_note_36dp"/>
     <EditText
         android:id="@+id/et"
         android:layout_width="match_parent"
@@ -67,6 +67,7 @@
         android:layout_height="100dp"
         android:src="@drawable/ic_meetings_now_24dp"
         android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"/>
+        android:layout_alignParentLeft="true"
+        android:background="#66ffe0"/>
 
 </RelativeLayout>

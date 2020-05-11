@@ -1,11 +1,10 @@
 package com.xjtucsse.meetingassistant.ui;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,19 +16,12 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.xjtucsse.meetingassistant.DatabaseDAO;
-import com.xjtucsse.meetingassistant.DatabaseHelper;
-import com.xjtucsse.meetingassistant.DatabaseInfo;
-import com.xjtucsse.meetingassistant.MainActivity;
 import com.xjtucsse.meetingassistant.MeetingActivity;
 import com.xjtucsse.meetingassistant.MeetingInfo;
 import com.xjtucsse.meetingassistant.R;
-import com.xjtucsse.meetingassistant.ui.MeetingsAhead.MeetingsAheadFragment;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.List;
-import java.util.Objects;
 
 public class MeetingAdapter extends RecyclerView.Adapter<MeetingAdapter.LinearViewHolder> {
 
@@ -70,21 +62,35 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingAdapter.LinearVi
                 intent.putExtra("starttime",sttimestr);
                 intent.putExtra("endtime",edtimestr);
                 //intent.putExtra("note","thismeetingnote");
-                ((Activity) Ct).startActivityForResult(intent,7325);
+                Ct.startActivity(intent);
+                //((Activity) Ct).startActivityForResult(intent,7325);
             }
         });
         holder.delbtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 sttimestr=holder.tv2.getText().toString().substring(5);
                 edtimestr=holder.tv3.getText().toString().substring(5);
                 topocstr=holder.tv1.getText().toString();
-                String thismeetingid=MeetingInfo.getMeetingID(topocstr+sttimestr+edtimestr);
-                DatabaseDAO dao = new DatabaseDAO(v.getContext());
-                dao.delete(thismeetingid);
-                Toast.makeText(v.getContext(),"删除成功！请刷新页面！",Toast.LENGTH_SHORT).show();
+                final String thismeetingid=MeetingInfo.getMeetingID(topocstr+sttimestr+edtimestr);
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+                builder.setTitle("删除会议").setMessage("确定删除会议"+topocstr+"吗?").setPositiveButton("是", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        DatabaseDAO dao = new DatabaseDAO(v.getContext());
+                        dao.delete(thismeetingid);
+                        Toast.makeText(v.getContext(),"删除成功！请刷新页面！",Toast.LENGTH_SHORT).show();
+                    }
+                }).setNegativeButton("否", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).show();
             }
         });
+
     }
 
     @Override

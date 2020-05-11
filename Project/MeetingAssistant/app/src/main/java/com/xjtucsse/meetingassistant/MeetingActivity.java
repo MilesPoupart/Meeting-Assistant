@@ -3,7 +3,9 @@ package com.xjtucsse.meetingassistant;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -30,7 +32,6 @@ public class MeetingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meeting);
-        //note = getIntent().getStringExtra("note");
         topic=getIntent().getStringExtra("topic");
         starttime=getIntent().getStringExtra("starttime");
         endtime=getIntent().getStringExtra("endtime");
@@ -51,35 +52,14 @@ public class MeetingActivity extends AppCompatActivity {
         Log.d("QRSTR",qrstring);
         Bitmap QR = CodeCreator.createQRCode(qrstring,100,100,null);
         IV.setImageBitmap(QR);
-        saveNote.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                note=ET.getText().toString();
-                Intent intent=new Intent();
-                intent.putExtra("note",note);
-                intent.putExtra("topic",topic);
-                DatabaseDAO dao = new DatabaseDAO(MeetingActivity.this);
-                dao.updateNote(thismeetingid,ET.getText().toString());
-                Toast.makeText(MeetingActivity.this,"保存成功！",Toast.LENGTH_SHORT).show();
-                setResult(Activity.RESULT_OK,intent);
-                finish();
-            }
-        });
-        deleteNote.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DatabaseDAO dao = new DatabaseDAO(MeetingActivity.this);
-                dao.delete(thismeetingid);
-                Toast.makeText(MeetingActivity.this,"删除成功！请刷新页面！",Toast.LENGTH_SHORT).show();
-                finish();
-            }
-        });
+        OnClick onClick = new OnClick();
+        saveNote.setOnClickListener(onClick);
+        deleteNote.setOnClickListener(onClick);
     }
     public String query_and_get_note(String mtid) {
         DatabaseHelper dbHelper= new DatabaseHelper(this);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         String sql="select note from "+ DatabaseInfo.TABLE_NAME+" where meetingID=\""+mtid+"\"";
-        //Log.d("QAGN",sql);
 
         Cursor cursor =db.rawQuery(sql,null);
         cursor.moveToNext();
@@ -87,5 +67,45 @@ public class MeetingActivity extends AppCompatActivity {
         cursor.close();
         db.close();
         return note;
+    }
+    class OnClick implements View.OnClickListener{
+        @Override
+        public void onClick(View v){
+            switch (v.getId()) {
+                case R.id.save_note:
+                    note=ET.getText().toString();
+                    Intent intent=new Intent();
+                    intent.putExtra("note",note);
+                    intent.putExtra("topic",topic);
+                    DatabaseDAO dao = new DatabaseDAO(MeetingActivity.this);
+                    dao.updateNote(thismeetingid,ET.getText().toString());
+                    Toast.makeText(MeetingActivity.this,"保存成功！",Toast.LENGTH_SHORT).show();
+                    setResult(Activity.RESULT_OK,intent);
+                    finish();
+                    break;
+
+                case R.id.delete_note:
+                    AlertDialog.Builder builder = new AlertDialog.Builder(MeetingActivity.this);
+                    builder.setTitle("清空记录").setMessage("确定清空当前的记录内容吗?").setPositiveButton("是", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                            DatabaseDAO dao = new DatabaseDAO(MeetingActivity.this);
+                            dao.updateNote(thismeetingid,"");
+                            Toast.makeText(MeetingActivity.this,"清除成功！",Toast.LENGTH_SHORT).show();
+                            note=query_and_get_note(thismeetingid);
+
+                            ET=findViewById(R.id.et);
+                            ET.setText(note);
+                        }
+                    }).setNegativeButton("否", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    }).show();
+                    break;
+            }
+        }
     }
 }
