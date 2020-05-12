@@ -9,6 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <service
+            android:name=".RemindService"
+            android:exported="false"></service>
+
         <activity
             android:name=".AddMeetingActivity"
             android:label="添加会议" />
